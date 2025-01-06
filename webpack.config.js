@@ -1,4 +1,5 @@
 const path = require("path")
+const htmlWebpack = require("html-webpack-plugin")
 
 module.exports = {
     target: "web",
@@ -14,8 +15,15 @@ module.exports = {
         static: {
             directory: path.join(__dirname, "dist"),
         },
-        port: 3000,
+        port: 3003,
         open: true,
         liveReload: true,
-    }
+    },
+    
+    plugins: [
+        new htmlWebpack({
+            template: path.resolve(__dirname, "index.html"),
+            favicon: path.resolve("src", "assets", "scissors.svg")
+        }),
+    ],
 }
