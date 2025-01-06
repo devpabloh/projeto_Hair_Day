@@ -15,4 +15,10 @@
 
  npm i webpack-dev-server@4.15.1 --save-dev
 
- 5 -
+ 5 - Adicionando o HTML ao webpack, para que possa ser lido e renderizado.
+
+ npm install --save-dev html-webpack-plugin
+
+ 6 - adicionando o CSS ao Webpack, para que o mesmo seja lido e renderizado.
+
+ npm i style-loader@3.3.3 css-loader@6.8.1 --save-dev
