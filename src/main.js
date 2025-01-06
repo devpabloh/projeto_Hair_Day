@@ -10,4 +10,5 @@ import "./styles/schedule.css"
 
 // Importando os arquivos Javascript
 import "./modules/form/submit.js"
+import "./modules/schedules/load.js"
 
