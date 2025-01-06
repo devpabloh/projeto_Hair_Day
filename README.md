@@ -22,3 +22,11 @@
  6 - adicionando o CSS ao Webpack, para que o mesmo seja lido e renderizado.
 
  npm i style-loader@3.3.3 css-loader@6.8.1 --save-dev
+
+ 7 - Adicionando o assets ao projeto utilizando o Webpack-plugin
+
+ npm i copy-webpack-plugin@11.0.0 --save-dev
+
+ 8 - instalando o babel
+
+ npm i babel-loader@9.1.3 @babel/core@7.23.7 @babel/preset-env@7.23.7 --save-dev
