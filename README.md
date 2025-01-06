@@ -11,4 +11,8 @@
 
  npm i webpack@5.89.0 webpack-cli@5.1.4 --save-dev
 
- 
+ 4 - devServer, instalamos o dev server do webpack, para criar um servidor de desenvolvimento.
+
+ npm i webpack-dev-server@4.15.1 --save-dev
+
+ 5 -
