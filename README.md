@@ -30,3 +30,9 @@
  8 - instalando o babel
 
  npm i babel-loader@9.1.3 @babel/core@7.23.7 @babel/preset-env@7.23.7 --save-dev
+
+ 9 - instalando o day.js para a gente puder manipular data e hora de forma mais fácil e rápida, todas as outras foram instaladas como dependências de desenvolvimento, já que a day.js nós vamos utilizar tanto no ambiente de desenvolvimento, quanto no ambiente de produção, nós não iremos colocar o flag de --save-dev.
+
+ npm i dayjs@1.11.10
+
+ 
