@@ -1,4 +1,5 @@
-const dayjs = require("dayjs")
+import dayjs from "dayjs"
+
 
 const form = document.querySelector("form")
 const selectedDate = document.getElementById("date")
