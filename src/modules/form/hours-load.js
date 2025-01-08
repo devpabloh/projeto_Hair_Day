@@ -9,9 +9,7 @@ export function hoursLoad({date, dailySchedules}){
   hours.innerHTML = ""
 
   // Obtém a lista de todos os horários ocupados
-  const unavailableHours = dailySchedules.map((schedule)=>{
-    dayjs(schedule.when).format("HH:mm")
-  })
+  const unavailableHours = dailySchedules.map((schedule)=> dayjs(schedule.when).format("HH:mm"))
 
   const opening = openingHours.map((hour)=>{
 
@@ -26,7 +24,7 @@ export function hoursLoad({date, dailySchedules}){
     
     return {
       hour,
-      available
+      available,
     }
   })
 
