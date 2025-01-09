@@ -1,3 +1,11 @@
 {
-  "rewrites": []
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/node",
+      "config": {
+        "installCommand": "npm install && npm run build"
+      }
+    }
+  ]
 }
