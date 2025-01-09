@@ -3,7 +3,7 @@
   "description": "Aplicação web de agendamento para corte de cabelo.",
   "author": "Pablo Henrique Ferreira de França",
   "scripts": {
-    "build": "webpack --mode production && cp -r public/ dist/",
+    "build": "webpack --mode production && cp -r ./dist",
     "dev": "webpack serve",
     "server": "json-server --watch server.json --port 3334"
   },
