@@ -4,7 +4,7 @@ const copyWebpackPlugin = require("copy-webpack-plugin")
 
 module.exports = {
     target: "web",
-    mode: "development",
+    mode: "production",
 
     entry: path.resolve(__dirname, "src", "main.js"),
     output: {
