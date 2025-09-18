@@ -1,14 +1,18 @@
-import {apiConfig}  from "./api-config.js"
+import api from './api-config';
 
-export async function scheduleCancel({id}) {
+export async function cancelSchedule(scheduleId) {
   try {
-    await fetch(`${apiConfig.baseURL}/schedules/${id}`, {
-      method: "DELETE"
-    })
+    const response = await fetch(`${api.baseURL}/schedules/${scheduleId}`, {
+      method: 'DELETE',
+    });
 
-    alert("Agendamento cancelado com sucesso!")
+    if (!response.ok) {
+      throw new Error('Failed to cancel schedule');
+    }
+
+    return true;
   } catch (error) {
-    console.log(error)
-    alert("Não foi possível cancelar o agendamento.")
+    console.error('Error canceling schedule:', error);
+    throw error;
   }
 }

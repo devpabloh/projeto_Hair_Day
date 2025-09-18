@@ -1,20 +1,29 @@
-import dayjs from "dayjs"
-import {apiConfig} from "./api-config"
+import dayjs from "dayjs";
+import api from "./api-config";
 
-export async function scheduleFetchByDay({date}){
+export async function scheduleFetchByDay({date}) {
   try {
-    // faz a requisição.
-    const response = await fetch(`${apiConfig.baseURL}/schedules`)
+    // Formata a data para ISO string para garantir compatibilidade
+    const formattedDate = dayjs(date).format('YYYY-MM-DD');
+    
+    // Faz a requisição usando a data formatada
+    const response = await fetch(`${api.baseURL}/schedules?when_like=${formattedDate}`);
 
-    // convertendo os dados em JSON.
-    const data = await response.json()
+    if (!response.ok) {
+      throw new Error('Failed to fetch schedules');
+    }
 
-    // Filtra os agendamentos pelo dia selecionado.
-    const dailySchedules = data.filter((schedule)=> dayjs(date).isSame(schedule.when, "day"))
+    const data = await response.json();
+    
+    // Filtra os agendamentos pelo dia selecionado
+    const dailySchedules = data.filter(schedule => 
+      dayjs(date).isSame(dayjs(schedule.when), "day")
+    );
 
-    return dailySchedules
+    return dailySchedules;
   } catch (error) {
-    console.log(error)
-    alert("Não foi possível buscar os agendamentos do dia selecionado.")
+    console.error('Error fetching schedules:', error);
+    alert("Não foi possível buscar os agendamentos do dia selecionado.");
+    return [];
   }
 }

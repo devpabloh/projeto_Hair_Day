@@ -1,12 +1,10 @@
-import dayjs from "dayjs"
+import dayjs from "dayjs";
+import { createNewSchedule } from "../../services/schedule-new.js";
+import { schedulesDay } from "../schedules/load.js";
 
-import {scheduleNew} from "../../services/schedule-new.js"
-import {schedulesDay} from "../schedules/load.js"
-
-
-const form = document.querySelector("form")
-const clientName = document.getElementById("client")
-const selectedDate = document.getElementById("date")
+const form = document.querySelector("form");
+const clientName = document.getElementById("client");
+const selectedDate = document.getElementById("date");
 
 // Date atual para formatar o input
 const inputToday = dayjs(new Date()).format("YYYY-MM-DD")
@@ -18,47 +16,57 @@ selectedDate.value = inputToday
 selectedDate.min = inputToday
 
 form.onsubmit = async (event) => {
-  // Previne o comportamento padrão de recarregar a página.
-  event.preventDefault()
+  // Previne o comportamento padrão de recarregar a página
+  event.preventDefault();
 
   try {
-    // Recuperando o nome do cliente.
-    const name = clientName.value.trim()
-    // verifica se o nome do cliente foi colocado.
-    if(!name){
-      return alert("Informe o nome do cliente!")
-    }
-    // Recupera o horário selecionado.
-    const hourSelected = document.querySelector(".hour-selected")
-    // Verifica se o horário foi selecionado ou não, caso não seja retorna um mensagem de alerta.
-    if(!hourSelected){
-      return alert("Selecione um horário.")
+    // Recupera o nome do cliente
+    const name = clientName.value.trim();
+    if (!name) {
+      return alert("Informe o nome do cliente!");
     }
 
-    //Recupera apenas a hora.
-    const [hour] = hourSelected.innerText.split(":")
-    
-    // Insere a hora na data do agendamento
-    const when = dayjs(selectedDate.value).add(hour, "hour")
+    // Recupera o horário selecionado
+    const hourSelected = document.querySelector(".hour-selected");
+    if (!hourSelected) {
+      return alert("Selecione um horário.");
+    }
 
-    // Gera um ID
-    const id = new Date().getTime()
+    // Recupera a hora e minuto do horário selecionado
+    const [hours, minutes] = hourSelected.innerText.split(":");
     
-    // Faz o agendamento.
-    await scheduleNew({
+    // Cria a data do agendamento
+    const when = dayjs(selectedDate.value)
+      .hour(parseInt(hours))
+      .minute(parseInt(minutes || 0));
+
+    // Gera um ID único
+    const id = Date.now();
+
+    console.log('Criando agendamento:', {
       id,
       name,
-      when,
-    })
+      when: when.toISOString()
+    });
     
-    // Recarrega os agendamentos.
-    await schedulesDay()
+    // Faz o agendamento
+    await createNewSchedule({
+      id,
+      name,
+      when: when.toDate()
+    });
 
-    // Limpa o input de nome do cliente.
-    clientName.value = ""
+    console.log('Agendamento criado com sucesso');
+    
+    // Recarrega os agendamentos
+    await schedulesDay();
+
+    // Limpa o formulário
+    clientName.value = "";
+    hourSelected.classList.remove("hour-selected");
 
   } catch (error) {
-    alert("Não foi possível realizar o agendamento.")
-    console.log(error)
+    console.error("Erro ao criar agendamento:", error);
+    alert("Não foi possível realizar o agendamento. Por favor, tente novamente.");
   }
-}
+};

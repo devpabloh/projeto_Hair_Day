@@ -1,34 +1,23 @@
-import {schedulesDay} from "./load.js"
-import { scheduleCancel } from "../../services/schedule-cancel.js"
+import { deleteSchedule } from "../../services/schedule-delete.js";
+import { schedulesDay } from "./load.js";
 
-const periods = document.querySelectorAll(".period")
-
-// Gerar evento de click para cada lista (manhã, tarde e noite)
-periods.forEach((period)=>{
-  // Captura o evento de clique na lista.
-  period.addEventListener("click", async (event)=>{
-   if(event.target.classList.contains("cancel-icon")){
-    // Obtém a li pai do elemento clicado.
-    const item = event.target.closest("li")
-    // Desestrutura e pega apenas o id do item que queremos remover.
-    const {id} = item.dataset
-
-    // Confirma que o ID foi selecionado.
-    if(id){
-      // Confirma e o usuário realmente quer remover aquele agendamento.
-      const isConfirm = confirm("Tem certeza que deseja cancelar o agendamento?")
-
-      if(isConfirm){
-        // Faz a requisição na API para cancelar.
-        await scheduleCancel({id})
-
-        // Recarrega os agendamentos.
-        schedulesDay()
-      }
+export async function cancelSchedule(scheduleId) {
+  try {
+    // Confirma com o usuário antes de cancelar
+    const confirmed = confirm("Tem certeza que deseja cancelar este agendamento?");
+    if (!confirmed) {
+      return;
     }
 
-  
+    // Chama o serviço para deletar o agendamento
+    await deleteSchedule(scheduleId);
     
-   }
-  })
-})
+    // Recarrega a lista de agendamentos
+    await schedulesDay();
+    
+    alert("Agendamento cancelado com sucesso!");
+  } catch (error) {
+    console.error("Erro ao cancelar agendamento:", error);
+    alert("Não foi possível cancelar o agendamento.");
+  }
+}
